@@ -2,11 +2,11 @@ package com.uszkaisandor.weathercompose.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.uszkaisandor.weathercompose.api.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -49,12 +49,16 @@ object AppModule {
         loggingInterceptor: HttpLoggingInterceptor
     ): Retrofit {
         okHttpClient.addInterceptor(loggingInterceptor)
-        val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
             .baseUrl(API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient.build())
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideNewsApi(retrofit: Retrofit): WeatherApi =
+        retrofit.create(WeatherApi::class.java)
 
 }
