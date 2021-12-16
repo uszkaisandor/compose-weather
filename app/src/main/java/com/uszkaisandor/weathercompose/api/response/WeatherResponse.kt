@@ -6,5 +6,5 @@ import com.uszkaisandor.weathercompose.data.dto.WeatherDto
 data class WeatherResponse(
     val weather: List<WeatherDto>,
     val main: TemperatureDto,
-    val name: String
+    val name: String,
 )
