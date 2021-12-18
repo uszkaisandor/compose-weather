@@ -10,13 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.uszkaisandor.weathercompose.api.response.WeatherResponse
+import com.uszkaisandor.weathercompose.data.dto.WeatherDescriptor
+import com.uszkaisandor.weathercompose.data.dto.WeatherDto
 import kotlin.math.roundToInt
 
 @Composable
-fun CurrentWeather(weather: WeatherResponse) {
+fun CurrentWeather(weather: WeatherDto) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,13 +44,13 @@ fun CurrentWeather(weather: WeatherResponse) {
         val textModifier = Modifier.align(Alignment.CenterHorizontally)
         Text(
             // todo refactor it later
-            text = "${weather.main.temp.roundToInt()} °C",
+            text = "${weather.temp?.roundToInt()} °C",
             style = MaterialTheme.typography.h2,
             modifier = textModifier,
             color = Color.White
         )
         Text(
-            text = weather.name,
+            text = weather.weather[0].main,
             modifier = textModifier.padding(top = 12.dp),
             color = Color.White
         )
@@ -58,4 +60,22 @@ fun CurrentWeather(weather: WeatherResponse) {
             color = Color.White
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview(
+    weather: WeatherDto = WeatherDto(
+        timeStamp = 1640005200, sunrise = 0, 0, 23f, 789, 1001, 0.3f, 100f, 234, 25.6f,
+        weather = listOf(
+            WeatherDescriptor(
+                id = 804,
+                main = "Clouds",
+                description = "overcast clouds",
+                icon = "04n"
+            )
+        )
+    )
+) {
+    CurrentWeather(weather = weather)
 }

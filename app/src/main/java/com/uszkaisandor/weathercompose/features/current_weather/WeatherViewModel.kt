@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrentWeatherViewModel
+class WeatherViewModel
 @Inject constructor(
     private val repository: WeatherRepository
 ) : ViewModel() {
@@ -21,20 +21,24 @@ class CurrentWeatherViewModel
     val accessKey = BuildConfig.WEATHER_API_KEY
 
     private val _unit: MutableStateFlow<Units> = MutableStateFlow(Units.METRIC)
-    private val _city: MutableStateFlow<String> = MutableStateFlow("Debrecen")
-    private val _weather: MutableStateFlow<WeatherResponse?> = MutableStateFlow (null)
+    private val _latitude: MutableStateFlow<Float> = MutableStateFlow(47.53333f)
+    private val _longitude: MutableStateFlow<Float> = MutableStateFlow(21.63333f)
+    private val _language: MutableStateFlow<String> = MutableStateFlow("hu")
+    private val _weather: MutableStateFlow<WeatherResponse?> = MutableStateFlow(null)
     val weather: StateFlow<WeatherResponse?> = _weather
 
     init {
-        getCurrentWeatherByCity()
+        getWeatherByCoordinates()
     }
 
-    fun getCurrentWeatherByCity() {
+    private fun getWeatherByCoordinates() {
         viewModelScope.launch {
             _weather.value = repository.getWeatherByCity(
+                _latitude.value,
+                _longitude.value,
                 _unit.value.toStringRepresentation,
-                _city.value,
-                accessKey
+                accessKey,
+                language = _language.value
             )
         }
     }

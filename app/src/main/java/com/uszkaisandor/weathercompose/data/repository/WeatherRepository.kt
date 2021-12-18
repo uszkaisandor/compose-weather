@@ -1,8 +1,8 @@
 package com.uszkaisandor.weathercompose.data.repository
 
-import com.uszkaisandor.weathercompose.BuildConfig
 import com.uszkaisandor.weathercompose.api.WeatherApi
 import com.uszkaisandor.weathercompose.api.response.WeatherResponse
+import com.uszkaisandor.weathercompose.data.dto.ExcludeData
 import javax.inject.Inject
 
 class WeatherRepository
@@ -11,8 +11,21 @@ constructor(
     private val weatherApi: WeatherApi
 ) {
 
-    suspend fun getWeatherByCity(unit: String, city: String, apiKey: String): WeatherResponse {
-        return weatherApi.getCurrentWeatherByCity(unit, city, apiKey)
+    suspend fun getWeatherByCity(
+        latitude: Float,
+        longitude: Float,
+        unit: String,
+        apiKey: String,
+        language: String
+    ): WeatherResponse {
+        return weatherApi.getCurrentWeatherByCity(
+            latitude = latitude,
+            longitude = longitude,
+            excludeData = ExcludeData.MINUTELY,
+            unit = unit,
+            language = language,
+            apiKey = apiKey
+        )
     }
 
 }
