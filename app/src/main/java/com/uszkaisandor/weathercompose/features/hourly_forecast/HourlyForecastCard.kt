@@ -14,6 +14,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.uszkaisandor.weathercompose.data.dto.WeatherDto
 import com.uszkaisandor.weathercompose.data.repository.WeatherRepository
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 @Composable
@@ -28,7 +32,7 @@ fun HourlyForecastCard(weather: WeatherDto) {
         Text(
             color = Color.White,
             style = MaterialTheme.typography.h5,
-            text = "10:00",
+            text = getTimeFromLong(weather.timeStamp),
             textAlign = TextAlign.Center
         )
         Image(
@@ -55,4 +59,15 @@ fun HourlyForecastCard(weather: WeatherDto) {
 @Composable
 fun HourlyForecastCardPreview(weather: WeatherDto = WeatherRepository.weather) {
     HourlyForecastCard(weather = weather)
+}
+
+fun getTimeFromLong(time: Long, inMillis: Boolean = false): String {
+    return LocalDateTime.ofInstant(
+        if (inMillis) {
+            Instant.ofEpochMilli(time)
+        } else {
+            Instant.ofEpochSecond(time)
+        }, ZoneId.systemDefault()
+    )
+        .toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")).toString()
 }

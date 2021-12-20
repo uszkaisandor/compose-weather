@@ -9,7 +9,7 @@ import com.uszkaisandor.weathercompose.data.dto.WeatherDto
 fun HourlyForecast(weatherList: List<WeatherDto>?) {
     weatherList?.let {
         LazyRow() {
-            items(it) { weather ->
+            items(it.subList(0,24)) { weather ->
                 HourlyForecastCard(weather = weather)
             }
         }
