@@ -8,10 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
@@ -50,7 +47,7 @@ fun CurrentWeather(weather: WeatherDto?) {
                 ),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(130.dp)
             )
             val textModifier = Modifier.align(Alignment.CenterHorizontally)
             Text(
@@ -58,12 +55,12 @@ fun CurrentWeather(weather: WeatherDto?) {
                 text = "${weather?.temp?.roundToInt()} °C",
                 style = MaterialTheme.typography.h2,
                 modifier = textModifier,
-                color = Color.White
+                color = MaterialTheme.colors.onPrimary
             )
             Text(
                 text = weather?.weather?.firstOrNull()?.description ?: "",
                 textModifier.padding(top = 12.dp, bottom = 12.dp),
-                color = Color.White
+                color = MaterialTheme.colors.onPrimary
             )
         }
     }

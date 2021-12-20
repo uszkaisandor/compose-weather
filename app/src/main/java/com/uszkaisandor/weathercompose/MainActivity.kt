@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uszkaisandor.weathercompose.features.current_weather.WeatherViewModel
 import com.uszkaisandor.weathercompose.features.current_weather.view.CurrentWeather
 import com.uszkaisandor.weathercompose.features.hourly_forecast.HourlyForecast
+import com.uszkaisandor.weathercompose.features.weather_forecast.DailyForecast
 import com.uszkaisandor.weathercompose.ui.theme.WeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.primary) {
+                Surface(color = MaterialTheme.colors.surface) {
                     WeatherScreen()
                 }
             }
@@ -36,6 +37,7 @@ fun WeatherScreen(viewModel: WeatherViewModel = viewModel()) {
     Column() {
         CurrentWeather(weather = weather?.current)
         HourlyForecast(weatherList = weather?.hourly)
+        DailyForecast(weatherList = weather?.daily)
     }
 }
 
