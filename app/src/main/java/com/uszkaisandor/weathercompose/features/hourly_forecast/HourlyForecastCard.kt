@@ -25,7 +25,7 @@ fun HourlyForecastCard(weather: WeatherDto) {
         modifier = Modifier
             .wrapContentHeight()
             .wrapContentWidth()
-            .padding(8.dp),
+            .padding(start = 4.dp, end = 4.dp, top = 0.dp, bottom = 0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -43,7 +43,8 @@ fun HourlyForecastCard(weather: WeatherDto) {
             ),
             contentDescription = null,
             modifier = Modifier
-                .size(46.dp)
+                .width(46.dp)
+                .height(40.dp)
                 .align(Alignment.CenterHorizontally)
         )
         Text(

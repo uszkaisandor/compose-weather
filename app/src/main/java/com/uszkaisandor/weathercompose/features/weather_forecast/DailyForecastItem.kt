@@ -27,9 +27,9 @@ fun DailyForecastItem(weather: DailyWeatherDto) {
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(top = 2.dp, bottom = 2.dp, start = 12.dp, end = 12.dp),
+                .padding(start = 12.dp, end = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 color = MaterialTheme.colors.onSurface,
@@ -55,7 +55,7 @@ fun DailyForecastItem(weather: DailyWeatherDto) {
                     ),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(46.dp)
                 )
             }
         }
