@@ -13,6 +13,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.uszkaisandor.weathercompose.data.dto.DailyWeatherDto
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.TextStyle
 import kotlin.math.roundToInt
 
 @Composable
@@ -31,7 +34,7 @@ fun DailyForecastItem(weather: DailyWeatherDto) {
             Text(
                 color = MaterialTheme.colors.onSurface,
                 style = MaterialTheme.typography.h3,
-                text = "Monday",
+                text = getDayFromTimeStamp(weather.timestamp),
                 textAlign = TextAlign.Center,
             )
             Row(
@@ -58,3 +61,11 @@ fun DailyForecastItem(weather: DailyWeatherDto) {
         }
     }
 }
+
+fun getDayFromTimeStamp(time: Long): String {
+    return Instant.ofEpochSecond(time)
+        .atZone(ZoneId.systemDefault())
+        .dayOfWeek
+        .getDisplayName(TextStyle.FULL, java.util.Locale.getDefault())
+}
+

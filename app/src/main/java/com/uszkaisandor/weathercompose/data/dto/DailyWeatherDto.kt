@@ -1,7 +1,10 @@
 package com.uszkaisandor.weathercompose.data.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class DailyWeatherDto(
-    val dt: Long,
+    @SerializedName("dt")
+    val timestamp: Long,
     val sunrise: Long,
     val sunset: Long,
     val moonrise: Long,
