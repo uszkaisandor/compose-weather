@@ -2,7 +2,6 @@ package com.uszkaisandor.weathercompose.features.current_weather.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,12 +15,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.uszkaisandor.weathercompose.data.dto.WeatherDescriptor
 import com.uszkaisandor.weathercompose.data.dto.WeatherDto
+import com.uszkaisandor.weathercompose.data.repository.WeatherRepository
 import kotlin.math.roundToInt
 
 @Composable
-fun CurrentWeather(weather: WeatherDto) {
+fun CurrentWeather(weather: WeatherDto?) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,14 +43,10 @@ fun CurrentWeather(weather: WeatherDto) {
         ) {
             Image(
                 painter = rememberImagePainter(
-                    data = "http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png",
+                    data = "http://openweathermap.org/img/wn/${weather?.weather?.firstOrNull()?.icon}@2x.png",
                     builder = {
                         crossfade(true)
                     }
-                ),
-                colorFilter = ColorFilter.tint(
-                    Color.White,
-                    BlendMode.SrcAtop
                 ),
                 contentDescription = null,
                 modifier = Modifier
@@ -60,18 +55,13 @@ fun CurrentWeather(weather: WeatherDto) {
             val textModifier = Modifier.align(Alignment.CenterHorizontally)
             Text(
                 // todo refactor it later
-                text = "${weather.temp?.roundToInt()} °C",
+                text = "${weather?.temp?.roundToInt()} °C",
                 style = MaterialTheme.typography.h2,
                 modifier = textModifier,
                 color = Color.White
             )
-            /*Text(
-                text = weather.weather[0].main,
-                modifier = textModifier.padding(top = 12.dp),
-                color = Color.White
-            )*/
             Text(
-                text = weather.weather[0].description,
+                text = weather?.weather?.firstOrNull()?.description ?: "",
                 textModifier.padding(top = 12.dp, bottom = 12.dp),
                 color = Color.White
             )
@@ -82,17 +72,7 @@ fun CurrentWeather(weather: WeatherDto) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview(
-    weather: WeatherDto = WeatherDto(
-        timeStamp = 1640005200, sunrise = 0, 0, 23f, 789, 1001, 0.3f, 100f, 234, 25.6f,
-        weather = listOf(
-            WeatherDescriptor(
-                id = 804,
-                main = "Clouds",
-                description = "overcast clouds",
-                icon = "04n"
-            )
-        )
-    )
+    weather: WeatherDto = WeatherRepository.weather
 ) {
     CurrentWeather(weather = weather)
 }
